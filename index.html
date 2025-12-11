@@ -295,6 +295,32 @@
                 grid-template-columns: 1fr;
             }
         }
+        
+        .mode-toggle-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #888 0%, #555 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        
+        .mode-toggle-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+        }
+        
+        .mode-toggle-btn i {
+            margin-right: 8px;
+        }
     </style>
 </head>
 <body>
@@ -441,13 +467,95 @@
     </div>
 
     <script>
+        // ============== HỆ THỐNG ĐĂNG NHẬP & PHÂN QUYỀN ==============
+        
+        // Mật khẩu của bạn (Đổi mật khẩu này!)
+        const ADMIN_PASSWORD = "matkhaucuaban123";
+        
+        let isEditMode = false;
+        
+        // Kiểm tra chế độ khi tải trang
+        window.addEventListener('load', function() {
+            const savedMode = localStorage.getItem('editMode');
+            if (savedMode === 'true') {
+                isEditMode = true;
+                enableEditMode();
+            } else {
+                disableEditMode();
+            }
+            updateModeButton();
+        });
+        
+        // Hàm đăng nhập/đăng xuất
+        function toggleEditMode() {
+            if (!isEditMode) {
+                // Yêu cầu mật khẩu để vào chế độ chỉnh sửa
+                const password = prompt("Nhập mật khẩu để chỉnh sửa:");
+                if (password === ADMIN_PASSWORD) {
+                    isEditMode = true;
+                    localStorage.setItem('editMode', 'true');
+                    enableEditMode();
+                    alert("✅ Đã bật chế độ chỉnh sửa!");
+                } else if (password !== null) {
+                    alert("❌ Mật khẩu sai!");
+                }
+            } else {
+                // Thoát chế độ chỉnh sửa
+                isEditMode = false;
+                localStorage.setItem('editMode', 'false');
+                disableEditMode();
+                alert("✅ Đã thoát chế độ chỉnh sửa!");
+            }
+            updateModeButton();
+        }
+        
+        // Bật chế độ chỉnh sửa
+        function enableEditMode() {
+            document.querySelectorAll('[contenteditable]').forEach(el => {
+                el.setAttribute('contenteditable', 'true');
+                el.style.cursor = 'text';
+            });
+            document.querySelectorAll('.add-btn').forEach(btn => {
+                btn.style.display = 'inline-block';
+            });
+            document.querySelector('.upload-btn').style.display = 'block';
+        }
+        
+        // Tắt chế độ chỉnh sửa
+        function disableEditMode() {
+            document.querySelectorAll('[contenteditable]').forEach(el => {
+                el.setAttribute('contenteditable', 'false');
+                el.style.cursor = 'default';
+            });
+            document.querySelectorAll('.add-btn').forEach(btn => {
+                btn.style.display = 'none';
+            });
+            document.querySelector('.upload-btn').style.display = 'none';
+        }
+        
+        // Cập nhật nút chuyển đổi chế độ
+        function updateModeButton() {
+            const btn = document.getElementById('modeToggleBtn');
+            if (isEditMode) {
+                btn.innerHTML = '<i class="fas fa-lock-open"></i> Chế độ Chỉnh sửa';
+                btn.style.background = 'linear-gradient(135deg, #00d2ff 0%, #3a47d5 100%)';
+            } else {
+                btn.innerHTML = '<i class="fas fa-lock"></i> Chế độ Xem';
+                btn.style.background = 'linear-gradient(135deg, #888 0%, #555 100%)';
+            }
+        }
+
+        // ============== CÁC CHỨC NĂNG CHỈNH SỬA ==============
+        
         // Upload ảnh
         document.getElementById('imageInput').addEventListener('change', function(e) {
+            if (!isEditMode) return;
             const file = e.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     document.getElementById('profileImage').src = e.target.result;
+                    localStorage.setItem('profileImage', e.target.result);
                 };
                 reader.readAsDataURL(file);
             }
@@ -455,6 +563,7 @@
 
         // Thêm học vấn
         function addEducation() {
+            if (!isEditMode) return;
             const container = document.getElementById('educationContainer');
             const newItem = document.createElement('div');
             newItem.className = 'timeline-item';
@@ -471,6 +580,7 @@
 
         // Thêm kinh nghiệm làm việc
         function addWork() {
+            if (!isEditMode) return;
             const container = document.getElementById('workContainer');
             const newItem = document.createElement('div');
             newItem.className = 'timeline-item';
@@ -485,6 +595,7 @@
 
         // Thêm kỹ năng
         function addSkill() {
+            if (!isEditMode) return;
             const container = document.getElementById('skillsContainer');
             const newItem = document.createElement('div');
             newItem.className = 'skill-item';
@@ -497,6 +608,7 @@
 
         // Thêm công trình nghiên cứu
         function addResearch() {
+            if (!isEditMode) return;
             const container = document.getElementById('researchContainer');
             const newItem = document.createElement('div');
             newItem.className = 'research-item';
@@ -504,6 +616,12 @@
                 <div class="research-description" contenteditable="true">Mô tả công trình nghiên cứu...</div>
             `;
             container.appendChild(newItem);
+        }
+        
+        // Tải ảnh đã lưu khi load trang
+        const savedImage = localStorage.getItem('profileImage');
+        if (savedImage) {
+            document.getElementById('profileImage').src = savedImage;
         }
     </script>
 </body>
