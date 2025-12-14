@@ -1,646 +1,1381 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Website cá nhân - Trần Gia Bảo</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="color-scheme" content="dark light" />
+  <title>Hồ sơ khoa học | Website cá nhân</title>
+  <meta name="description" content="Website cá nhân chuyên nghiệp dành cho nhà khoa học: hồ sơ, học tập, công tác, kỹ năng, công trình nghiên cứu và hướng nghiên cứu." />
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            overflow: hidden;
-        }
+  <style>
+    :root{
+      --bg0:#07131a;
+      --bg1:#071b2b;
+      --card: rgba(255,255,255,.06);
+      --card2: rgba(255,255,255,.09);
+      --line: rgba(255,255,255,.12);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.72);
+      --muted2: rgba(255,255,255,.55);
+      --brandA:#16a34a; /* green */
+      --brandB:#0ea5e9; /* sky */
+      --brandC:#22c55e; /* emerald */
+      --brandD:#1d4ed8; /* blue */
+    }
 
-        .header {
-            background: linear-gradient(135deg, #00d2ff 0%, #3a47d5 100%);
-            color: white;
-            padding: 60px 40px;
-            text-align: center;
-            position: relative;
-        }
+    html{ scroll-behavior:smooth; }
 
-        .profile-image-container {
-            position: relative;
-            width: 180px;
-            height: 180px;
-            margin: 0 auto 20px;
-        }
+    body{
+      color: var(--text);
+      background:
+        radial-gradient(1200px 700px at 20% 10%, rgba(14,165,233,.22), transparent 60%),
+        radial-gradient(1000px 650px at 80% 20%, rgba(34,197,94,.18), transparent 55%),
+        radial-gradient(900px 600px at 50% 110%, rgba(29,78,216,.18), transparent 50%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      min-height: 100vh;
+    }
 
-        .profile-image {
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            border: 5px solid white;
-            object-fit: cover;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
+    /* subtle tech grid */
+    .tech-grid::before{
+      content:"";
+      position:absolute; inset:0;
+      background-image:
+        linear-gradient(to right, rgba(255,255,255,.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,.05) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(ellipse at top, black 35%, transparent 72%);
+      pointer-events:none;
+      opacity:.55;
+    }
 
-        .upload-btn {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            background: #00d2ff;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            transition: all 0.3s;
-        }
+    .glass{
+      background: var(--card);
+      border: 1px solid var(--line);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
 
-        .upload-btn:hover {
-            background: #00b8e6;
-            transform: scale(1.1);
-        }
+    .glass-strong{ background: var(--card2); border: 1px solid var(--line); backdrop-filter: blur(12px); }
 
-        #imageInput {
-            display: none;
-        }
+    .shadow-soft{
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,.04),
+        0 20px 60px rgba(0,0,0,.35);
+    }
 
-        .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-        }
+    .ring-brand{
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,.08),
+        0 0 0 4px rgba(14,165,233,.14),
+        0 0 60px rgba(34,197,94,.18);
+    }
 
-        .header p {
-            font-size: 1.2em;
-            opacity: 0.95;
-        }
+    .gradient-text{
+      background: linear-gradient(90deg, rgba(34,197,94,1), rgba(14,165,233,1), rgba(29,78,216,1));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
 
-        .content {
-            padding: 40px;
-        }
+    .badge{
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+    }
 
-        .section {
-            margin-bottom: 40px;
-            padding: 30px;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            border: 1px solid rgba(0, 210, 255, 0.2);
-        }
+    .kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: .85rem;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.08);
+      padding: .12rem .45rem;
+      border-radius: .5rem;
+    }
 
-        .section-title {
-            color: #00d2ff;
-            font-size: 1.8em;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+    /* focus */
+    a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible{
+      outline: 2px solid rgba(14,165,233,.9);
+      outline-offset: 3px;
+    }
 
-        .section-title i {
-            color: #3a47d5;
-        }
-
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
-        .info-item {
-            background: rgba(0, 210, 255, 0.05);
-            padding: 15px;
-            border-radius: 10px;
-            border-left: 4px solid #00d2ff;
-            border: 1px solid rgba(0, 210, 255, 0.2);
-        }
-
-        .info-label {
-            font-weight: bold;
-            color: #00d2ff;
-            font-size: 0.9em;
-            margin-bottom: 5px;
-        }
-
-        .info-value {
-            color: #e0e0e0;
-            font-size: 1.1em;
-            padding: 5px;
-            border: 1px solid transparent;
-            border-radius: 5px;
-            cursor: text;
-            transition: all 0.3s;
-        }
-
-        .info-value:hover {
-            background: rgba(0, 210, 255, 0.1);
-            border-color: #00d2ff;
-        }
-
-        .info-value:focus {
-            outline: none;
-            background: rgba(0, 210, 255, 0.15);
-            border-color: #3a47d5;
-            box-shadow: 0 0 0 3px rgba(58, 71, 213, 0.2);
-        }
-
-        .timeline-item {
-            background: rgba(0, 210, 255, 0.05);
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            border-left: 4px solid #00d2ff;
-            border: 1px solid rgba(0, 210, 255, 0.2);
-            position: relative;
-        }
-
-        .timeline-item:before {
-            content: '';
-            position: absolute;
-            left: -8px;
-            top: 25px;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #00d2ff;
-            border: 3px solid #1a1a2e;
-            box-shadow: 0 0 10px rgba(0, 210, 255, 0.5);
-        }
-
-        .timeline-title {
-            font-size: 1.3em;
-            color: #00d2ff;
-            margin-bottom: 10px;
-            font-weight: bold;
-        }
-
-        .timeline-period {
-            color: #3a47d5;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .timeline-description {
-            color: #e0e0e0;
-            line-height: 1.6;
-            padding: 5px;
-            border-radius: 5px;
-            cursor: text;
-            transition: all 0.3s;
-        }
-
-        .timeline-description:hover {
-            background: rgba(0, 210, 255, 0.1);
-        }
-
-        .timeline-description:focus {
-            outline: none;
-            background: rgba(0, 210, 255, 0.15);
-            border: 1px solid #3a47d5;
-        }
-
-        .skill-item {
-            background: rgba(0, 210, 255, 0.05);
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            border-left: 4px solid #3a47d5;
-            border: 1px solid rgba(58, 71, 213, 0.2);
-        }
-
-        .skill-name {
-            font-size: 1.2em;
-            color: #00d2ff;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .skill-description {
-            color: #e0e0e0;
-            line-height: 1.6;
-        }
-
-        .add-btn {
-            background: linear-gradient(135deg, #00d2ff 0%, #3a47d5 100%);
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 1em;
-            margin-top: 15px;
-            box-shadow: 0 4px 15px rgba(0, 210, 255, 0.4);
-            transition: all 0.3s;
-        }
-
-        .add-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 210, 255, 0.6);
-        }
-
-        .research-item {
-            background: rgba(0, 210, 255, 0.05);
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            border-left: 4px solid #00b8e6;
-            border: 1px solid rgba(0, 184, 230, 0.2);
-        }
-
-        .research-description {
-            color: #e0e0e0;
-            line-height: 1.8;
-            padding: 10px;
-            border-radius: 5px;
-            cursor: text;
-            transition: all 0.3s;
-        }
-
-        .research-description:hover {
-            background: rgba(0, 210, 255, 0.1);
-        }
-
-        .research-description:focus {
-            outline: none;
-            background: rgba(0, 210, 255, 0.15);
-            border: 1px solid #00d2ff;
-        }
-
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 1.8em;
-            }
-            
-            .content {
-                padding: 20px;
-            }
-            
-            .section {
-                padding: 20px;
-            }
-            
-            .info-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        .mode-toggle-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: linear-gradient(135deg, #888 0%, #555 100%);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 1em;
-            font-weight: bold;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            transition: all 0.3s;
-            z-index: 1000;
-        }
-        
-        .mode-toggle-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-        }
-        
-        .mode-toggle-btn i {
-            margin-right: 8px;
-        }
-    </style>
+    /* print */
+    @media print{
+      body{ background: #fff !important; color: #111 !important; }
+      .no-print{ display:none !important; }
+      .glass, .glass-strong{ background: #fff !important; border-color: #ddd !important; }
+      .gradient-text{ color:#0b4f6c !important; background:none !important; }
+      a{ color:#0b4f6c !important; text-decoration:underline; }
+    }
+  </style>
 </head>
+
 <body>
-    <!-- Nút chuyển đổi chế độ -->
-    <button class="mode-toggle-btn" id="modeToggleBtn" onclick="toggleEditMode()">
-        <i class="fas fa-lock"></i> Chế độ Xem
-    </button>
-
-    <div class="container">
-        <div class="header">
-            <div class="profile-image-container">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Crect fill='%23ddd' width='180' height='180'/%3E%3Ctext fill='%23999' x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='40' font-family='Arial'%3EẢnh%3C/text%3E%3C/svg%3E" 
-                     alt="Ảnh đại diện" 
-                     class="profile-image" 
-                     id="profileImage">
-                <button class="upload-btn" onclick="document.getElementById('imageInput').click()">
-                    <i class="fas fa-camera"></i>
-                </button>
-                <input type="file" id="imageInput" accept="image/*">
+  <div class="relative tech-grid">
+    <!-- Top bar -->
+    <header class="no-print sticky top-0 z-40 border-b border-white/10 bg-black/20 backdrop-blur">
+      <div class="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between gap-3">
+        <div class="flex items-center gap-3 min-w-0">
+          <div class="h-9 w-9 rounded-xl ring-brand overflow-hidden bg-white/5 border border-white/10 flex items-center justify-center">
+            <img id="miniAvatar" alt="Ảnh đại diện" class="h-full w-full object-cover" />
+          </div>
+          <div class="min-w-0">
+            <div class="flex items-center gap-2 min-w-0">
+              <span id="topName" class="font-semibold truncate"></span>
+              <span id="topSpecialty" class="hidden sm:inline text-white/70 text-sm truncate"></span>
             </div>
-            <h1 contenteditable="true" id="fullName">CHÀO MỪNG ĐẾN VỚI WEBSITE CÁ NHÂN CỦA TÔI</h1>
-            <p contenteditable="true" id="major"></p>
+            <div class="text-xs text-white/60">Hồ sơ khoa học cá nhân</div>
+          </div>
         </div>
 
-        <div class="content">
-            <!-- Thông tin cá nhân -->
-            <div class="section">
-                <h2 class="section-title">
-                    <i class="fas fa-user"></i>
-                    Thông Tin Cá Nhân
-                </h2>
-                <div class="info-grid">
-                    <div class="info-item">
-                        <div class="info-label">Họ và Tên</div>
-                        <div class="info-value" contenteditable="true">Trần Gia Bảo</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-label">Năm Sinh</div>
-                        <div class="info-value" contenteditable="true">2003</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-label">Chiều Cao</div>
-                        <div class="info-value" contenteditable="true">160 cm</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-label">Cân Nặng</div>
-                        <div class="info-value" contenteditable="true">58 kg</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-label">Số Điện Thoại</div>
-                        <div class="info-value" contenteditable="true"> 0788 857 077</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-label">Email</div>
-                        <div class="info-value" contenteditable="true">baom2925003@gstudent.ctu.edu.vn</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-label">Chuyên Ngành</div>
-                        <div class="info-value" contenteditable="true">Quản lý Tài nguyên và Môi trường</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-label">Quê Quán</div>
-                        <div class="info-value" contenteditable="true">phường Long Mỹ, thành phố Cần Thơ</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-label">Ngày Kết Nạp Đảng</div>
-                        <div class="info-value" contenteditable="true">25/10/2024</div>
-                    </div>
-                </div>
-            </div>
+        <nav class="hidden md:flex items-center gap-1">
+          <a class="px-3 py-2 rounded-lg text-sm text-white/80 hover:text-white hover:bg-white/5" href="#tong-quan">Tổng quan</a>
+          <a class="px-3 py-2 rounded-lg text-sm text-white/80 hover:text-white hover:bg-white/5" href="#thong-tin">Thông tin</a>
+          <a class="px-3 py-2 rounded-lg text-sm text-white/80 hover:text-white hover:bg-white/5" href="#hoc-tap">Học tập</a>
+          <a class="px-3 py-2 rounded-lg text-sm text-white/80 hover:text-white hover:bg-white/5" href="#cong-tac">Công tác</a>
+          <a class="px-3 py-2 rounded-lg text-sm text-white/80 hover:text-white hover:bg-white/5" href="#ky-nang">Kỹ năng</a>
+          <a class="px-3 py-2 rounded-lg text-sm text-white/80 hover:text-white hover:bg-white/5" href="#cong-trinh">Công trình</a>
+        </nav>
 
-            <!-- Quá trình học tập -->
-            <div class="section">
-                <h2 class="section-title">
-                    <i class="fas fa-graduation-cap"></i>
-                    Quá Trình Học Tập
-                </h2>
-                <div id="educationContainer">
-                    <div class="timeline-item">
-                        <div class="timeline-title" contenteditable="true">Đại học Cần Thơ</div>
-                        <div class="timeline-period" contenteditable="true">09/2021 - 12/2024</div>
-                        <div class="info-label">GPA</div>
-                        <div class="timeline-description" contenteditable="true">3.9</div>
-                        <div class="info-label">Luận Văn</div>
-                        <div class="timeline-description" contenteditable="true">Đánh giá hiện trạng quản lý chất thải điện tử tại các hộ gia đình tỉnh Hậu Giang</div>
-                    </div>
-                </div>
-                <button class="add-btn" onclick="addEducation()">
-                    <i class="fas fa-plus"></i> Thêm Học Vấn
-                </button>
-            </div>
-
-            <!-- Quá trình làm việc -->
-            <div class="section">
-                <h2 class="section-title">
-                    <i class="fas fa-briefcase"></i>
-                    Quá Trình Làm Việc
-                </h2>
-                <div id="workContainer">
-                    <div class="timeline-item">
-                        <div class="timeline-title" contenteditable="true">Công ty TNHH Xây Dựng - Công Nghệ Môi Trường Nano</div>
-                        <div class="timeline-period" contenteditable="true">01/2025 - 04/2025</div>
-                        <div class="info-label">Mô Tả Công Việc</div>
-                        <div class="timeline-description" contenteditable="true">Nhân viên tư vấn: Tư vấn và thực hiện các hồ sơ pháp lý về tài nguyên và môi trường cho các doanh nghiệp</div>
-                    </div>
-                </div>
-                <button class="add-btn" onclick="addWork()">
-                    <i class="fas fa-plus"></i> Thêm Kinh Nghiệm
-                </button>
-            </div>
-
-            <!-- Kỹ năng -->
-            <div class="section">
-                <h2 class="section-title">
-                    <i class="fas fa-code"></i>
-                    Kỹ Năng
-                </h2>
-                <div id="skillsContainer">
-                    <div class="skill-item">
-                        <div class="skill-name" contenteditable="true">Năng lực số</div>
-                        <div class="skill-description" contenteditable="true">Sử dụng cơ bản Google Workspace, QGIS, AutoCad, SPSS và AI</div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-name" contenteditable="true">Ngoại ngữ</div>
-                        <div class="skill-description" contenteditable="true">Giao tiếp tiếng Anh cơ bản (bậc 3/6)</div>
-                    </div>
-                </div>
-                <button class="add-btn" onclick="addSkill()">
-                    <i class="fas fa-plus"></i> Thêm Kỹ Năng
-                </button>
-            </div>
-
-            <!-- Công trình nghiên cứu -->
-            <div class="section">
-                <h2 class="section-title">
-                    <i class="fas fa-flask"></i>
-                    Công Trình Nghiên Cứu
-                </h2>
-                <div id="researchContainer">
-                    <div class="research-item">
-                        <div class="research-description" contenteditable="true">1. Bảo, T. G., Nhung, N. T. N., Vĩnh, Q. ., Ngân, N. T. K., Nhung, Đ. C., & Giao, N. T. (2025). Đánh giá hiện trạng quản lý chất thải điện tử tại các hộ gia đình thị xã Long Mỹ và huyện Vị Thủy, tỉnh Hậu Giang. Tạp chí Khoa học Đại học Cần Thơ, 61(CĐ Môi trường, tài nguyên thiên nhiên và biến đổi), 98-110. https://doi.org/10.22144/ctujos.2025.061</div>
-                       <div class="research-description" contenteditable="true">2. Nhung, Đ. C., Như, H. T. K., Bảo, T. G., & Giao, N. T. (2025). Nghiên cứu sơ bộ hiện trạng phát sinh, quản lý và đề xuất giải pháp cho dầu ăn sau sử dụng tại phường Ninh Kiều và phường Tân An, thành phố Cần Thơ. Tạp chí khoa học Tài nguyên và Môi trường, (57), 56-69. DOI: http://doi.org/10.63064/khtnmt.2025.707</div>
-                    </div>
-                </div>
-                <button class="add-btn" onclick="addResearch()">
-                    <i class="fas fa-plus"></i> Thêm Công Trình
-                </button>
-            </div>
+        <div class="flex items-center gap-2">
+          <button id="btnPrint" class="no-print inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm bg-white/5 hover:bg-white/10 border border-white/10">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
+            In / PDF
+          </button>
+          <button id="btnAdmin" class="no-print hidden md:inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-300/20 text-emerald-50">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a4 4 0 0 0-4 4v1H7a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-1V7a4 4 0 0 0-4-4z"/><path d="M8 8V7a4 4 0 0 1 8 0v1"/></svg>
+            Admin
+          </button>
         </div>
+      </div>
+    </header>
+
+    <!-- Main -->
+    <main class="mx-auto max-w-6xl px-4 pb-16">
+      <!-- Hero / Overview -->
+      <section id="tong-quan" class="pt-10 md:pt-14">
+        <div class="grid grid-cols-1 lg:grid-cols-[360px_1fr] gap-6">
+          <!-- Profile card -->
+          <div class="glass shadow-soft rounded-2xl p-6">
+            <div class="flex items-start gap-4">
+              <div class="relative">
+                <div class="h-24 w-24 rounded-2xl overflow-hidden ring-brand bg-white/5 border border-white/10">
+                  <img id="avatar" alt="Ảnh đại diện" class="h-full w-full object-cover" />
+                </div>
+                <div class="absolute -bottom-2 -right-2 badge rounded-xl px-2 py-1 text-xs text-white/80">
+                  <span id="badgeStatus">Khoa học & Công nghệ</span>
+                </div>
+              </div>
+
+              <div class="min-w-0">
+                <h1 id="name" class="text-2xl font-bold leading-tight"></h1>
+                <p id="specialty" class="text-white/75 mt-1"></p>
+                <div class="mt-3 flex flex-wrap gap-2" id="quickBadges"></div>
+              </div>
+            </div>
+
+            <div class="mt-5 space-y-3">
+              <div class="flex items-center gap-3 text-sm text-white/80">
+                <span class="text-white/55">Email</span>
+                <a id="emailLink" class="ml-auto text-sky-200 hover:text-sky-100 underline underline-offset-4" href="#">—</a>
+              </div>
+              <div class="flex items-center gap-3 text-sm text-white/80">
+                <span class="text-white/55">Điện thoại</span>
+                <a id="phoneLink" class="ml-auto text-emerald-200 hover:text-emerald-100 underline underline-offset-4" href="#">—</a>
+              </div>
+              <div class="flex items-center gap-3 text-sm text-white/80">
+                <span class="text-white/55">Nơi công tác</span>
+                <span id="affiliation" class="ml-auto text-white/85 text-right">—</span>
+              </div>
+            </div>
+
+            <div class="mt-6 pt-5 border-t border-white/10">
+              <p class="text-xs text-white/60 leading-relaxed">
+                Gợi ý: Bạn chỉnh sửa dữ liệu trực tiếp trong code (biến <span class="kbd">SITE_DATA</span>) và push lên GitHub.
+                Ảnh đại diện có thể dùng URL hoặc Base64.
+              </p>
+            </div>
+          </div>
+
+          <!-- Research direction -->
+          <div class="glass shadow-soft rounded-2xl p-6">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <h2 class="text-lg font-semibold">Hướng nghiên cứu chính</h2>
+                <p class="text-white/60 text-sm mt-1">Tóm tắt ngắn gọn, súc tích theo phong cách khoa học.</p>
+              </div>
+              <div class="hidden sm:flex items-center gap-2 text-xs text-white/70">
+                <span class="badge rounded-full px-3 py-1">Modern</span>
+                <span class="badge rounded-full px-3 py-1">Tech</span>
+                <span class="badge rounded-full px-3 py-1">Open Science</span>
+              </div>
+            </div>
+
+            <div class="mt-5 grid grid-cols-1 xl:grid-cols-[1fr_280px] gap-6">
+              <div>
+                <p id="researchDirection" class="text-white/85 leading-relaxed"></p>
+
+                <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-3" id="highlights"></div>
+              </div>
+
+              <div class="glass-strong rounded-2xl p-4 border border-white/10">
+                <h3 class="font-semibold">Liên hệ nhanh</h3>
+                <div class="mt-3 space-y-3 text-sm text-white/80">
+                  <div class="flex items-center gap-2">
+                    <span class="text-white/55">Địa chỉ cơ quan</span>
+                  </div>
+                  <div id="workplaceAddress" class="text-white/85 leading-relaxed">—</div>
+                </div>
+
+                <div class="mt-4 pt-4 border-t border-white/10 text-xs text-white/60 leading-relaxed">
+                  Truy cập quản trị (ẩn): thêm <span class="kbd">?admin=1</span> vào URL.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Personal information -->
+      <section id="thong-tin" class="mt-10">
+        <div class="flex items-end justify-between gap-4">
+          <div>
+            <h2 class="text-2xl font-bold"><span class="gradient-text">Thông tin cá nhân</span></h2>
+            <p class="text-white/60 mt-1">Thông tin nền tảng phục vụ hồ sơ khoa học.</p>
+          </div>
+        </div>
+
+        <div class="mt-5 grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="glass shadow-soft rounded-2xl p-6">
+            <h3 class="font-semibold">Tóm tắt</h3>
+            <dl class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+              <div class="rounded-xl border border-white/10 bg-white/5 p-4">
+                <dt class="text-white/60">Họ tên</dt>
+                <dd id="pi_name" class="mt-1 font-medium"></dd>
+              </div>
+              <div class="rounded-xl border border-white/10 bg-white/5 p-4">
+                <dt class="text-white/60">Năm sinh</dt>
+                <dd id="pi_birth" class="mt-1 font-medium"></dd>
+              </div>
+              <div class="rounded-xl border border-white/10 bg-white/5 p-4">
+                <dt class="text-white/60">Số điện thoại</dt>
+                <dd id="pi_phone" class="mt-1 font-medium"></dd>
+              </div>
+              <div class="rounded-xl border border-white/10 bg-white/5 p-4">
+                <dt class="text-white/60">Email</dt>
+                <dd id="pi_email" class="mt-1 font-medium"></dd>
+              </div>
+              <div class="rounded-xl border border-white/10 bg-white/5 p-4 sm:col-span-2">
+                <dt class="text-white/60">Chuyên ngành</dt>
+                <dd id="pi_specialty" class="mt-1 font-medium"></dd>
+              </div>
+            </dl>
+          </div>
+
+          <div class="glass shadow-soft rounded-2xl p-6">
+            <h3 class="font-semibold">Đơn vị & tổ chức</h3>
+            <dl class="mt-4 grid grid-cols-1 gap-4 text-sm">
+              <div class="rounded-xl border border-white/10 bg-white/5 p-4">
+                <dt class="text-white/60">Nơi công tác</dt>
+                <dd id="pi_affiliation" class="mt-1 font-medium"></dd>
+              </div>
+              <div class="rounded-xl border border-white/10 bg-white/5 p-4">
+                <dt class="text-white/60">Ngày kết nạp Đảng</dt>
+                <dd id="pi_party" class="mt-1 font-medium"></dd>
+              </div>
+              <div class="rounded-xl border border-white/10 bg-white/5 p-4">
+                <dt class="text-white/60">Ghi chú hồ sơ</dt>
+                <dd id="pi_note" class="mt-1 text-white/80 leading-relaxed"></dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </section>
+
+      <!-- Education -->
+      <section id="hoc-tap" class="mt-10">
+        <div>
+          <h2 class="text-2xl font-bold"><span class="gradient-text">Quá trình học tập</span></h2>
+          <p class="text-white/60 mt-1">Mốc thời gian học tập & đề tài/luận văn.</p>
+        </div>
+
+        <div class="mt-5 glass shadow-soft rounded-2xl p-6">
+          <div id="educationList" class="space-y-4"></div>
+        </div>
+      </section>
+
+      <!-- Work -->
+      <section id="cong-tac" class="mt-10">
+        <div>
+          <h2 class="text-2xl font-bold"><span class="gradient-text">Quá trình làm việc</span></h2>
+          <p class="text-white/60 mt-1">Kinh nghiệm, vai trò và mô tả nhiệm vụ phụ trách.</p>
+        </div>
+
+        <div class="mt-5 glass shadow-soft rounded-2xl p-6">
+          <div id="workList" class="space-y-4"></div>
+        </div>
+      </section>
+
+      <!-- Skills -->
+      <section id="ky-nang" class="mt-10">
+        <div class="flex items-end justify-between gap-4">
+          <div>
+            <h2 class="text-2xl font-bold"><span class="gradient-text">Kỹ năng</span></h2>
+            <p class="text-white/60 mt-1">Kỹ năng chuyên môn & công cụ nghiên cứu.</p>
+          </div>
+          <div class="no-print hidden sm:flex items-center gap-2 text-xs text-white/60">
+            <span class="kbd">Ctrl</span> + <span class="kbd">P</span> để in PDF
+          </div>
+        </div>
+
+        <div class="mt-5 grid grid-cols-1 lg:grid-cols-2 gap-6" id="skillsGrid"></div>
+      </section>
+
+      <!-- Research works -->
+      <section id="cong-trinh" class="mt-10">
+        <div>
+          <h2 class="text-2xl font-bold"><span class="gradient-text">Công trình nghiên cứu</span></h2>
+          <p class="text-white/60 mt-1">Chia theo 2 phần: Đề tài và Công bố khoa học.</p>
+        </div>
+
+        <div class="mt-5 glass shadow-soft rounded-2xl p-6">
+          <div class="no-print flex flex-col sm:flex-row sm:items-center gap-2 justify-between">
+            <div class="flex items-center gap-2">
+              <button data-tab="topics" class="tabBtn rounded-xl px-4 py-2 text-sm border border-white/10 bg-white/5 hover:bg-white/10">Đề tài</button>
+              <button data-tab="publications" class="tabBtn rounded-xl px-4 py-2 text-sm border border-white/10 bg-white/5 hover:bg-white/10">Công bố khoa học</button>
+            </div>
+            <div class="text-xs text-white/60">Cập nhật: <span id="updatedAt">—</span></div>
+          </div>
+
+          <div class="mt-4" id="researchTabContent"></div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="mt-12 border-t border-white/10 pt-6 text-sm text-white/60">
+        <div class="flex flex-col md:flex-row md:items-center gap-3 justify-between">
+          <div>
+            <div class="text-white/75">© <span id="footerYear"></span> <span id="footerName"></span> — Hồ sơ khoa học</div>
+            <div class="text-xs">Thiết kế single-page tối ưu cho GitHub Pages. Nội dung chỉnh sửa qua code (Git).</div>
+          </div>
+          <div class="no-print flex items-center gap-2">
+            <a id="mailtoFooter" class="rounded-xl px-4 py-2 border border-white/10 bg-white/5 hover:bg-white/10" href="#">Gửi email</a>
+            <a class="rounded-xl px-4 py-2 border border-white/10 bg-white/5 hover:bg-white/10" href="#tong-quan">Lên đầu trang</a>
+          </div>
+        </div>
+      </footer>
+    </main>
+
+    <!-- Admin Modal (hidden by default; requires ?admin=1 + passphrase) -->
+    <div id="adminOverlay" class="no-print fixed inset-0 z-50 hidden">
+      <div class="absolute inset-0 bg-black/60"></div>
+      <div class="relative mx-auto max-w-5xl p-4 md:p-6">
+        <div class="glass shadow-soft rounded-2xl overflow-hidden">
+          <div class="flex items-center justify-between px-5 py-4 border-b border-white/10">
+            <div>
+              <div class="text-sm text-white/60">Admin mode</div>
+              <div class="text-lg font-semibold">Chỉnh sửa cục bộ & xuất dữ liệu</div>
+            </div>
+            <button id="btnCloseAdmin" class="rounded-xl px-3 py-2 border border-white/10 bg-white/5 hover:bg-white/10">Đóng</button>
+          </div>
+
+          <div class="p-5 grid grid-cols-1 xl:grid-cols-[260px_1fr] gap-5">
+            <aside class="space-y-2">
+              <button class="adminNav w-full text-left rounded-xl px-4 py-3 border border-white/10 bg-white/5 hover:bg-white/10" data-panel="profile">
+                Thông tin & ảnh đại diện
+              </button>
+              <button class="adminNav w-full text-left rounded-xl px-4 py-3 border border-white/10 bg-white/5 hover:bg-white/10" data-panel="education">
+                Học tập
+              </button>
+              <button class="adminNav w-full text-left rounded-xl px-4 py-3 border border-white/10 bg-white/5 hover:bg-white/10" data-panel="work">
+                Công tác
+              </button>
+              <button class="adminNav w-full text-left rounded-xl px-4 py-3 border border-white/10 bg-white/5 hover:bg-white/10" data-panel="skills">
+                Kỹ năng
+              </button>
+              <button class="adminNav w-full text-left rounded-xl px-4 py-3 border border-white/10 bg-white/5 hover:bg-white/10" data-panel="research">
+                Công trình & hướng nghiên cứu
+              </button>
+
+              <div class="mt-4 rounded-2xl border border-emerald-300/20 bg-emerald-500/10 p-4 text-xs text-emerald-50/90 leading-relaxed">
+                <div class="font-semibold">Lưu ý quan trọng</div>
+                <ul class="mt-2 list-disc pl-5 space-y-1">
+                  <li>Mọi thay đổi trong Admin chỉ lưu trên máy bạn (LocalStorage).</li>
+                  <li>Để cập nhật công khai, hãy <b>Xuất JSON</b> rồi dán vào biến <span class="kbd">SITE_DATA</span> trong code và push lên GitHub.</li>
+                  <li>Không có cách “khóa” tuyệt đối trên GitHub Pages. Admin chỉ giúp bạn thao tác nhanh, còn dữ liệu public vẫn công khai.</li>
+                </ul>
+              </div>
+            </aside>
+
+            <section>
+              <div id="adminPanel" class="space-y-5"></div>
+
+              <div class="mt-5 pt-4 border-t border-white/10 flex flex-col md:flex-row gap-2 md:items-center md:justify-between">
+                <div class="text-xs text-white/60">
+                  Trạng thái lưu: <span id="saveState" class="text-white/80">chưa lưu</span>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                  <button id="btnSaveLocal" class="rounded-xl px-4 py-2 text-sm border border-emerald-300/20 bg-emerald-500/15 hover:bg-emerald-500/25">Lưu Local</button>
+                  <button id="btnExportJSON" class="rounded-xl px-4 py-2 text-sm border border-sky-300/20 bg-sky-500/15 hover:bg-sky-500/25">Xuất JSON</button>
+                  <button id="btnCopyJSON" class="rounded-xl px-4 py-2 text-sm border border-white/10 bg-white/5 hover:bg-white/10">Copy JSON</button>
+                  <button id="btnReset" class="rounded-xl px-4 py-2 text-sm border border-rose-300/20 bg-rose-500/15 hover:bg-rose-500/25">Reset về mặc định</button>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <script>
-        // ============== HỆ THỐNG ĐĂNG NHẬP & PHÂN QUYỀN ==============
-        
-        // Mật khẩu của bạn (Đổi mật khẩu này!)
-        const ADMIN_PASSWORD = "matkhaucuaban123";
-        
-        let isEditMode = false;
-        
-        // Kiểm tra chế độ khi tải trang
-        window.addEventListener('DOMContentLoaded', function() {
-            const savedMode = localStorage.getItem('editMode');
-            if (savedMode === 'true') {
-                isEditMode = true;
-                enableEditMode();
-            } else {
-                disableEditMode();
-            }
-            updateModeButton();
-            
-            // Tải ảnh đã lưu
-            const savedImage = localStorage.getItem('profileImage');
-            if (savedImage) {
-                document.getElementById('profileImage').src = savedImage;
-            }
+  </div>
+
+  <script>
+    /***********************
+     * 1) DỮ LIỆU CHÍNH — chỉnh tại đây rồi push lên GitHub
+     ***********************/
+    const SITE_DATA = {
+      updatedAt: "2025-12-14",
+      profile: {
+        fullName: "Nguyễn Văn A",
+        birthYear: 1988,
+        phone: "+84 9xx xxx xxx",
+        specialty: "Khoa học dữ liệu & Trí tuệ nhân tạo",
+        email: "name@university.edu.vn",
+        affiliation: "Viện Nghiên cứu Công nghệ X",
+        workplaceAddress: "Số 1, Đường Khoa học, Quận ... , TP. ...",
+        partyJoinDate: "2012-05-19",
+        statusBadge: "Nhà khoa học",
+        note: "Tập trung vào nghiên cứu mang tính ứng dụng cao, công bố quốc tế, hướng tới chuyển giao công nghệ.",
+
+        // Ảnh đại diện: có thể dùng URL ảnh (https://...) hoặc Base64 (data:image/...) hoặc để trống.
+        // Gợi ý GitHub Pages: upload ảnh vào repo và đặt avatarUrl: "./avatar.jpg".
+        avatarUrl: "",
+        quickBadges: ["AI", "Data Science", "Research", "Innovation"],
+        highlights: [
+          { label: "Lĩnh vực", value: "Machine Learning" },
+          { label: "Mối quan tâm", value: "AI tin cậy (Trustworthy AI)" },
+          { label: "Ưu tiên", value: "Ứng dụng thực tiễn" }
+        ]
+      },
+      researchDirection:
+        "Nghiên cứu và phát triển các mô hình học máy/AI có khả năng giải thích, ổn định và hiệu quả tính toán; tối ưu hoá quy trình thu thập–làm sạch–phân tích dữ liệu; xây dựng hệ thống triển khai (MLOps) cho môi trường thực tế trong các bài toán y tế, nông nghiệp thông minh và công nghiệp.",
+      education: [
+        {
+          school: "Đại học Bách khoa ...",
+          start: "2006",
+          end: "2010",
+          gpa: "3.45/4.00",
+          thesis: "Tối ưu hoá thuật toán phân cụm cho dữ liệu lớn"
+        },
+        {
+          school: "Đại học ... (Thạc sĩ)",
+          start: "2011",
+          end: "2013",
+          gpa: "3.70/4.00",
+          thesis: "Học sâu cho phân loại ảnh y khoa với dữ liệu hạn chế"
+        },
+        {
+          school: "Đại học ... (Tiến sĩ)",
+          start: "2016",
+          end: "2020",
+          gpa: "Xuất sắc",
+          thesis: "Mô hình hoá bất định và khả năng giải thích trong hệ thống AI"
+        }
+      ],
+      work: [
+        {
+          place: "Trung tâm R&D, Công ty ...",
+          start: "2013",
+          end: "2016",
+          description:
+            "Phát triển sản phẩm phân tích dữ liệu; xây dựng pipeline ETL; triển khai mô hình dự báo; phối hợp liên phòng ban để đưa mô hình vào vận hành."
+        },
+        {
+          place: "Viện Nghiên cứu Công nghệ X",
+          start: "2020",
+          end: "nay",
+          description:
+            "Chủ trì/đồng chủ trì đề tài; hướng dẫn nghiên cứu; xây dựng nhóm MLOps; viết bài công bố; chuyển giao công nghệ cho đơn vị đối tác."
+        }
+      ],
+      skills: [
+        { name: "Machine Learning", description: "Thiết kế mô hình, đánh giá, tối ưu hoá, xử lý mất cân bằng dữ liệu, kiểm định thống kê." },
+        { name: "Deep Learning", description: "CNN/Transformer; fine-tuning; regularization; training trên GPU; tối ưu hiệu năng." },
+        { name: "MLOps", description: "Versioning dữ liệu/mô hình; CI/CD; monitoring; reproducibility; deployment container." },
+        { name: "Kỹ năng nghiên cứu", description: "Thiết kế thí nghiệm; viết bài; phản biện; trình bày học thuật; hợp tác quốc tế." }
+      ],
+      researchWorks: {
+        topics: [
+          {
+            title: "Đề tài cấp cơ sở: Hệ thống phát hiện bất thường từ dữ liệu cảm biến",
+            time: "2021–2022",
+            role: "Chủ nhiệm",
+            output: "01 báo cáo tổng kết; 01 phần mềm thử nghiệm; 01 bài hội nghị"
+          },
+          {
+            title: "Đề tài cấp bộ: AI tin cậy cho chẩn đoán hỗ trợ",
+            time: "2023–2025",
+            role: "Thành viên chính",
+            output: "02 bài tạp chí; 01 prototype; dữ liệu chuẩn hoá"
+          }
+        ],
+        publications: [
+          {
+            title: "Interpretable Uncertainty Estimation for Medical Imaging",
+            venue: "Journal of ...",
+            year: 2024,
+            authors: "Nguyễn Văn A, B. C., D. E.",
+            link: "https://example.com"
+          },
+          {
+            title: "Robust Learning under Noisy Labels in Real-world Datasets",
+            venue: "Conference on ...",
+            year: 2023,
+            authors: "Nguyễn Văn A, F. G.",
+            link: ""
+          }
+        ]
+      },
+      admin: {
+        // Passphrase chỉ để hạn chế UI chỉnh sửa trên trình duyệt. Không phải cơ chế bảo mật tuyệt đối.
+        // Đổi passphrase tại đây.
+        passphrase: "doi-mat-khau-admin"
+      }
+    };
+
+    /***********************
+     * 2) APP STATE
+     ***********************/
+    const STORAGE_KEY = "scientist_site_data_v1";
+    const STORAGE_AVATAR_KEY = "scientist_site_avatar_v1";
+
+    const state = {
+      isAdminEnabledByUrl: false,
+      isAdminUnlocked: false,
+      data: structuredClone(SITE_DATA)
+    };
+
+    /***********************
+     * 3) HELPERS
+     ***********************/
+    const $ = (sel, root = document) => root.querySelector(sel);
+    const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+
+    function safeText(v){
+      if (v === null || v === undefined) return "";
+      return String(v);
+    }
+
+    function formatDateISOToVN(iso){
+      if (!iso) return "—";
+      const parts = String(iso).split("-");
+      if (parts.length !== 3) return iso;
+      return `${parts[2]}/${parts[1]}/${parts[0]}`;
+    }
+
+    function downloadText(filename, text){
+      const blob = new Blob([text], { type: "application/json;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function escapeHtml(str){
+      return safeText(str)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    /***********************
+     * 4) RENDER
+     ***********************/
+    function render(){
+      const d = state.data;
+      const p = d.profile;
+
+      // Avatar: priority: localStorage avatar (owner convenience) -> profile.avatarUrl -> placeholder
+      const storedAvatar = localStorage.getItem(STORAGE_AVATAR_KEY);
+      const avatarUrl = storedAvatar || p.avatarUrl || makeAvatarPlaceholder(p.fullName);
+
+      $("#avatar").src = avatarUrl;
+      $("#miniAvatar").src = avatarUrl;
+
+      $("#name").textContent = p.fullName;
+      $("#specialty").textContent = p.specialty;
+      $("#topName").textContent = p.fullName;
+      $("#topSpecialty").textContent = "• " + p.specialty;
+
+      $("#badgeStatus").textContent = p.statusBadge || "Khoa học & Công nghệ";
+
+      // quick badges
+      const qb = $("#quickBadges");
+      qb.innerHTML = "";
+      (p.quickBadges || []).forEach(b => {
+        const el = document.createElement("span");
+        el.className = "badge rounded-full px-3 py-1 text-xs text-white/80";
+        el.textContent = b;
+        qb.appendChild(el);
+      });
+
+      // contact links
+      $("#emailLink").textContent = p.email;
+      $("#emailLink").href = `mailto:${p.email}`;
+      $("#phoneLink").textContent = p.phone;
+      $("#phoneLink").href = `tel:${p.phone.replace(/\s+/g,"")}`;
+      $("#affiliation").textContent = p.affiliation;
+      $("#workplaceAddress").textContent = p.workplaceAddress || "—";
+
+      // personal info
+      $("#pi_name").textContent = p.fullName;
+      $("#pi_birth").textContent = p.birthYear || "—";
+      $("#pi_phone").textContent = p.phone || "—";
+      $("#pi_email").textContent = p.email || "—";
+      $("#pi_specialty").textContent = p.specialty || "—";
+      $("#pi_affiliation").textContent = p.affiliation || "—";
+      $("#pi_party").textContent = formatDateISOToVN(p.partyJoinDate);
+      $("#pi_note").textContent = p.note || "—";
+
+      // direction
+      $("#researchDirection").textContent = d.researchDirection || "—";
+
+      // highlights
+      const hl = $("#highlights");
+      hl.innerHTML = "";
+      (p.highlights || []).forEach(item => {
+        const card = document.createElement("div");
+        card.className = "rounded-2xl border border-white/10 bg-white/5 p-4";
+        card.innerHTML = `
+          <div class="text-xs text-white/60">${escapeHtml(item.label || "")}</div>
+          <div class="mt-1 font-semibold text-white/90">${escapeHtml(item.value || "")}</div>
+        `;
+        hl.appendChild(card);
+      });
+
+      // education
+      const edu = $("#educationList");
+      edu.innerHTML = "";
+      (d.education || []).forEach((e, idx) => {
+        edu.appendChild(makeTimelineItem({
+          index: idx,
+          title: e.school,
+          time: `${e.start || ""} — ${e.end || ""}`,
+          meta: [
+            { k: "GPA", v: e.gpa },
+            { k: "Luận văn/Đề tài", v: e.thesis }
+          ]
+        }));
+      });
+
+      // work
+      const wl = $("#workList");
+      wl.innerHTML = "";
+      (d.work || []).forEach((w, idx) => {
+        wl.appendChild(makeTimelineItem({
+          index: idx,
+          title: w.place,
+          time: `${w.start || ""} — ${w.end || ""}`,
+          meta: [
+            { k: "Mô tả", v: w.description }
+          ]
+        }));
+      });
+
+      // skills
+      const sg = $("#skillsGrid");
+      sg.innerHTML = "";
+      (d.skills || []).forEach((s, idx) => {
+        const el = document.createElement("div");
+        el.className = "glass shadow-soft rounded-2xl p-6";
+        el.innerHTML = `
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <div class="text-xs text-white/55">Kỹ năng #${idx+1}</div>
+              <div class="mt-1 text-lg font-semibold">${escapeHtml(s.name || "")}</div>
+            </div>
+            <div class="h-10 w-10 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-sky-500/20 border border-white/10 flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white/80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+            </div>
+          </div>
+          <p class="mt-3 text-white/75 leading-relaxed">${escapeHtml(s.description || "")}</p>
+        `;
+        sg.appendChild(el);
+      });
+
+      // research tabs
+      $("#updatedAt").textContent = d.updatedAt || "—";
+      renderResearchTab(currentTab);
+
+      // footer
+      $("#footerYear").textContent = new Date().getFullYear();
+      $("#footerName").textContent = p.fullName;
+      $("#mailtoFooter").href = `mailto:${p.email}`;
+      $("#mailtoFooter").textContent = "Email";
+
+      // admin button visibility
+      $("#btnAdmin").classList.toggle("hidden", !state.isAdminEnabledByUrl);
+    }
+
+    function makeTimelineItem({ index, title, time, meta }){
+      const wrap = document.createElement("div");
+      wrap.className = "rounded-2xl border border-white/10 bg-white/5 p-5";
+      const metaHtml = (meta || []).map(m => {
+        return `
+          <div class="mt-2">
+            <div class="text-xs text-white/55">${escapeHtml(m.k || "")}</div>
+            <div class="mt-1 text-white/85 leading-relaxed">${escapeHtml(m.v || "—")}</div>
+          </div>
+        `;
+      }).join("");
+
+      wrap.innerHTML = `
+        <div class="flex flex-col sm:flex-row sm:items-start gap-3 justify-between">
+          <div>
+            <div class="text-xs text-white/55">Mốc #${index + 1}</div>
+            <div class="mt-1 text-lg font-semibold">${escapeHtml(title || "")}</div>
+          </div>
+          <div class="text-sm text-white/70 sm:text-right">
+            <span class="badge rounded-full px-3 py-1">${escapeHtml(time || "")}</span>
+          </div>
+        </div>
+        ${metaHtml}
+      `;
+      return wrap;
+    }
+
+    function makeAvatarPlaceholder(name){
+      const initials = (safeText(name).trim().split(/\s+/).slice(0,2).map(s => s[0] || "").join("") || "SC").toUpperCase();
+      const svg = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240">
+          <defs>
+            <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#22c55e" stop-opacity="0.9"/>
+              <stop offset="0.5" stop-color="#0ea5e9" stop-opacity="0.9"/>
+              <stop offset="1" stop-color="#1d4ed8" stop-opacity="0.9"/>
+            </linearGradient>
+            <filter id="f" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="18" />
+            </filter>
+          </defs>
+          <rect width="240" height="240" fill="#06131b"/>
+          <circle cx="80" cy="70" r="60" fill="url(#g)" filter="url(#f)" opacity="0.8"/>
+          <circle cx="160" cy="180" r="70" fill="url(#g)" filter="url(#f)" opacity="0.6"/>
+          <rect x="18" y="18" width="204" height="204" rx="34" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.14)"/>
+          <text x="50%" y="54%" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif,system-ui" font-size="64" fill="rgba(255,255,255,0.92)" font-weight="700">${initials}</text>
+          <text x="50%" y="70%" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif,system-ui" font-size="16" fill="rgba(255,255,255,0.70)">Scientist</text>
+        </svg>
+      `.trim();
+      return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+    }
+
+    /***********************
+     * 5) RESEARCH TABS
+     ***********************/
+    let currentTab = "topics";
+
+    function renderResearchTab(tab){
+      currentTab = tab;
+      $$(".tabBtn").forEach(btn => {
+        const active = btn.dataset.tab === tab;
+        btn.classList.toggle("bg-white/10", active);
+        btn.classList.toggle("border-sky-300/30", active);
+      });
+
+      const d = state.data;
+      const host = $("#researchTabContent");
+
+      if (tab === "topics"){
+        const list = d.researchWorks?.topics || [];
+        host.innerHTML = `
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            ${list.map((t, i) => `
+              <article class="rounded-2xl border border-white/10 bg-white/5 p-5">
+                <div class="flex items-start justify-between gap-3">
+                  <div>
+                    <div class="text-xs text-white/55">Đề tài #${i+1}</div>
+                    <h3 class="mt-1 font-semibold text-white/90">${escapeHtml(t.title || "")}</h3>
+                  </div>
+                  <div class="text-xs"><span class="badge rounded-full px-3 py-1">${escapeHtml(t.time || "")}</span></div>
+                </div>
+                <div class="mt-3 grid grid-cols-1 gap-2 text-sm">
+                  <div class="rounded-xl border border-white/10 bg-black/10 p-3">
+                    <div class="text-xs text-white/55">Vai trò</div>
+                    <div class="mt-1 text-white/85">${escapeHtml(t.role || "—")}</div>
+                  </div>
+                  <div class="rounded-xl border border-white/10 bg-black/10 p-3">
+                    <div class="text-xs text-white/55">Sản phẩm/đầu ra</div>
+                    <div class="mt-1 text-white/85 leading-relaxed">${escapeHtml(t.output || "—")}</div>
+                  </div>
+                </div>
+              </article>
+            `).join("")}
+          </div>
+        `;
+        return;
+      }
+
+      // publications
+      const pubs = d.researchWorks?.publications || [];
+      host.innerHTML = `
+        <div class="overflow-x-auto">
+          <table class="min-w-full border-separate border-spacing-0">
+            <thead>
+              <tr class="text-left text-xs text-white/60">
+                <th class="py-3 px-3 border-b border-white/10">Năm</th>
+                <th class="py-3 px-3 border-b border-white/10">Công bố</th>
+                <th class="py-3 px-3 border-b border-white/10">Tác giả</th>
+                <th class="py-3 px-3 border-b border-white/10">Tạp chí/Hội nghị</th>
+                <th class="py-3 px-3 border-b border-white/10">Link</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${pubs.map((p, i) => `
+                <tr class="align-top">
+                  <td class="py-3 px-3 border-b border-white/10 text-sm text-white/85 whitespace-nowrap">${escapeHtml(p.year || "—")}</td>
+                  <td class="py-3 px-3 border-b border-white/10 text-sm text-white/90">
+                    <div class="font-semibold">${escapeHtml(p.title || "")}</div>
+                    <div class="text-xs text-white/55">#${i+1}</div>
+                  </td>
+                  <td class="py-3 px-3 border-b border-white/10 text-sm text-white/80">${escapeHtml(p.authors || "—")}</td>
+                  <td class="py-3 px-3 border-b border-white/10 text-sm text-white/80">${escapeHtml(p.venue || "—")}</td>
+                  <td class="py-3 px-3 border-b border-white/10 text-sm">
+                    ${p.link ? `<a class="text-sky-200 hover:text-sky-100 underline underline-offset-4" href="${escapeHtml(p.link)}" target="_blank" rel="noreferrer">Mở</a>` : `<span class="text-white/40">—</span>`}
+                  </td>
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    /***********************
+     * 6) ADMIN MODE
+     ***********************/
+    function enableAdminIfRequested(){
+      const url = new URL(location.href);
+      state.isAdminEnabledByUrl = url.searchParams.get("admin") === "1";
+      if (!state.isAdminEnabledByUrl) return;
+
+      // show admin button in header
+      $("#btnAdmin").classList.remove("hidden");
+
+      // unlock flow
+      $("#btnAdmin").addEventListener("click", async () => {
+        const ok = await unlockAdmin();
+        if (!ok) return;
+        openAdmin();
+      });
+
+      // keyboard shortcut: Ctrl+Shift+E
+      window.addEventListener("keydown", async (e) => {
+        if (e.ctrlKey && e.shiftKey && (e.key === "E" || e.key === "e")){
+          e.preventDefault();
+          const ok = await unlockAdmin();
+          if (!ok) return;
+          openAdmin();
+        }
+      });
+    }
+
+    async function unlockAdmin(){
+      if (state.isAdminUnlocked) return true;
+
+      const pass = prompt("Nhập passphrase Admin (chỉ để mở UI chỉnh sửa cục bộ):");
+      if (pass === null) return false;
+
+      if (pass !== SITE_DATA.admin.passphrase){
+        alert("Sai passphrase.");
+        return false;
+      }
+
+      state.isAdminUnlocked = true;
+      return true;
+    }
+
+    function openAdmin(){
+      // load local edits (if any)
+      const local = localStorage.getItem(STORAGE_KEY);
+      if (local){
+        try{ state.data = JSON.parse(local); }catch{}
+      }
+
+      $("#adminOverlay").classList.remove("hidden");
+      setAdminPanel("profile");
+      render();
+    }
+
+    function closeAdmin(){
+      $("#adminOverlay").classList.add("hidden");
+    }
+
+    function setSaveState(text){
+      $("#saveState").textContent = text;
+    }
+
+    function setAdminPanel(panel){
+      $$(".adminNav").forEach(b => {
+        const active = b.dataset.panel === panel;
+        b.classList.toggle("bg-white/10", active);
+        b.classList.toggle("border-sky-300/30", active);
+      });
+
+      const host = $("#adminPanel");
+      host.innerHTML = "";
+
+      if (panel === "profile"){
+        host.appendChild(adminProfilePanel());
+        return;
+      }
+      if (panel === "education"){
+        host.appendChild(adminRepeaterPanel({
+          title: "Học tập",
+          items: state.data.education,
+          emptyItem: { school: "", start: "", end: "", gpa: "", thesis: "" },
+          fields: [
+            { key: "school", label: "Trường/Chương trình" },
+            { key: "start", label: "Bắt đầu" },
+            { key: "end", label: "Kết thúc" },
+            { key: "gpa", label: "GPA" },
+            { key: "thesis", label: "Luận văn/Đề tài", type: "textarea" }
+          ]
+        }));
+        return;
+      }
+      if (panel === "work"){
+        host.appendChild(adminRepeaterPanel({
+          title: "Công tác",
+          items: state.data.work,
+          emptyItem: { place: "", start: "", end: "", description: "" },
+          fields: [
+            { key: "place", label: "Nơi làm việc" },
+            { key: "start", label: "Bắt đầu" },
+            { key: "end", label: "Kết thúc" },
+            { key: "description", label: "Mô tả công việc", type: "textarea" }
+          ]
+        }));
+        return;
+      }
+      if (panel === "skills"){
+        host.appendChild(adminRepeaterPanel({
+          title: "Kỹ năng",
+          items: state.data.skills,
+          emptyItem: { name: "", description: "" },
+          fields: [
+            { key: "name", label: "Tên kỹ năng" },
+            { key: "description", label: "Mô tả", type: "textarea" }
+          ]
+        }));
+        return;
+      }
+      if (panel === "research"){
+        host.appendChild(adminResearchPanel());
+        return;
+      }
+    }
+
+    function field({ label, value, onInput, type = "text", placeholder = "" }){
+      const wrap = document.createElement("label");
+      wrap.className = "block";
+      const lab = document.createElement("div");
+      lab.className = "text-xs text-white/60";
+      lab.textContent = label;
+      wrap.appendChild(lab);
+
+      let input;
+      if (type === "textarea"){
+        input = document.createElement("textarea");
+        input.rows = 3;
+      } else {
+        input = document.createElement("input");
+        input.type = type;
+      }
+      input.className = "mt-1 w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-white placeholder:text-white/30";
+      input.value = value ?? "";
+      input.placeholder = placeholder;
+      input.addEventListener("input", () => {
+        onInput(input.value);
+        setSaveState("đã thay đổi (chưa lưu)");
+        render();
+      });
+
+      wrap.appendChild(input);
+      return wrap;
+    }
+
+    function adminProfilePanel(){
+      const p = state.data.profile;
+      const box = document.createElement("div");
+      box.className = "space-y-5";
+
+      const header = document.createElement("div");
+      header.innerHTML = `
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <div class="text-xs text-white/60">Thông tin cơ bản</div>
+            <div class="text-lg font-semibold">Hồ sơ & liên hệ</div>
+          </div>
+          <div class="text-xs text-white/60">
+            Mở Admin bằng <span class="kbd">?admin=1</span>
+          </div>
+        </div>
+      `;
+      box.appendChild(header);
+
+      const grid = document.createElement("div");
+      grid.className = "grid grid-cols-1 md:grid-cols-2 gap-4";
+
+      grid.appendChild(field({ label: "Họ tên", value: p.fullName, onInput: v => p.fullName = v }));
+      grid.appendChild(field({ label: "Năm sinh", value: p.birthYear, onInput: v => p.birthYear = v, type: "number" }));
+      grid.appendChild(field({ label: "Số điện thoại", value: p.phone, onInput: v => p.phone = v }));
+      grid.appendChild(field({ label: "Email", value: p.email, onInput: v => p.email = v, type: "email" }));
+      grid.appendChild(field({ label: "Chuyên ngành", value: p.specialty, onInput: v => p.specialty = v }));
+      grid.appendChild(field({ label: "Nơi công tác", value: p.affiliation, onInput: v => p.affiliation = v }));
+      grid.appendChild(field({ label: "Địa chỉ cơ quan", value: p.workplaceAddress, onInput: v => p.workplaceAddress = v, type: "textarea" }));
+      grid.appendChild(field({ label: "Ngày kết nạp Đảng (YYYY-MM-DD)", value: p.partyJoinDate, onInput: v => p.partyJoinDate = v, placeholder: "2012-05-19" }));
+
+      box.appendChild(grid);
+
+      const avatar = document.createElement("div");
+      avatar.className = "rounded-2xl border border-white/10 bg-white/5 p-4";
+      avatar.innerHTML = `
+        <div class="flex flex-col md:flex-row md:items-center gap-4 justify-between">
+          <div>
+            <div class="text-sm font-semibold">Ảnh đại diện</div>
+            <div class="text-xs text-white/60 mt-1">Chọn ảnh để xem trước và lưu cục bộ (LocalStorage). Muốn public cho mọi người: upload ảnh vào repo và đặt <span class="kbd">avatarUrl</span>.</div>
+          </div>
+          <div class="flex items-center gap-2">
+            <button id="btnClearAvatarLocal" class="rounded-xl px-4 py-2 text-sm border border-rose-300/20 bg-rose-500/15 hover:bg-rose-500/25">Xoá avatar local</button>
+          </div>
+        </div>
+        <div class="mt-4 grid grid-cols-1 lg:grid-cols-[1fr_260px] gap-4">
+          <div class="space-y-3">
+            <label class="block">
+              <div class="text-xs text-white/60">avatarUrl (URL hoặc data:image/...)</div>
+              <input id="avatarUrlInput" class="mt-1 w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-white placeholder:text-white/30" placeholder="./avatar.jpg hoặc https://... hoặc data:image/..." />
+            </label>
+
+            <label class="block">
+              <div class="text-xs text-white/60">Upload ảnh (chỉ lưu cục bộ)</div>
+              <input id="avatarFile" type="file" accept="image/*" class="mt-1 w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-white file:mr-3 file:rounded-lg file:border-0 file:bg-white/10 file:px-3 file:py-2 file:text-white/80" />
+            </label>
+
+            <div class="rounded-xl border border-white/10 bg-black/10 p-3">
+              <div class="text-xs text-white/60">Xuất Base64 (dán vào code)</div>
+              <div class="text-xs text-white/55 mt-1">Sau khi upload ảnh, bấm nút bên dưới để copy Data URL. Sau đó dán vào <span class="kbd">profile.avatarUrl</span> rồi push lên GitHub.</div>
+              <div class="mt-2 flex flex-wrap gap-2">
+                <button id="btnCopyAvatarDataUrl" class="rounded-xl px-4 py-2 text-sm border border-sky-300/20 bg-sky-500/15 hover:bg-sky-500/25">Copy Data URL</button>
+              </div>
+              <textarea id="avatarDataUrl" rows="3" class="mt-3 w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-xs text-white/85 placeholder:text-white/30" placeholder="(Data URL sẽ xuất hiện ở đây sau khi upload)"></textarea>
+            </div>
+          </div>
+
+          <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+            <div class="text-xs text-white/60">Preview</div>
+            <div class="mt-3 h-44 w-44 rounded-2xl overflow-hidden ring-brand bg-white/5 border border-white/10 mx-auto">
+              <img id="avatarPreview" class="h-full w-full object-cover" alt="Avatar preview" />
+            </div>
+          </div>
+        </div>
+      `;
+
+      box.appendChild(avatar);
+
+      // research direction quick edit
+      const dir = document.createElement("div");
+      dir.className = "rounded-2xl border border-white/10 bg-white/5 p-4";
+      dir.appendChild(field({
+        label: "Hướng nghiên cứu chính",
+        value: state.data.researchDirection,
+        onInput: v => state.data.researchDirection = v,
+        type: "textarea"
+      }));
+      box.appendChild(dir);
+
+      // wire avatar inputs after insertion
+      setTimeout(() => {
+        const preview = $("#avatarPreview");
+        const stored = localStorage.getItem(STORAGE_AVATAR_KEY);
+        preview.src = stored || p.avatarUrl || makeAvatarPlaceholder(p.fullName);
+
+        const avatarUrlInput = $("#avatarUrlInput");
+        avatarUrlInput.value = p.avatarUrl || "";
+        avatarUrlInput.addEventListener("input", () => {
+          p.avatarUrl = avatarUrlInput.value.trim();
+          setSaveState("đã thay đổi (chưa lưu)");
+          render();
+          preview.src = localStorage.getItem(STORAGE_AVATAR_KEY) || p.avatarUrl || makeAvatarPlaceholder(p.fullName);
         });
-        
-        // Hàm đăng nhập/đăng xuất
-        function toggleEditMode() {
-            if (!isEditMode) {
-                // Yêu cầu mật khẩu để vào chế độ chỉnh sửa
-                const password = prompt("Nhập mật khẩu để chỉnh sửa:");
-                if (password === ADMIN_PASSWORD) {
-                    isEditMode = true;
-                    localStorage.setItem('editMode', 'true');
-                    enableEditMode();
-                    alert("✅ Đã bật chế độ chỉnh sửa!");
-                } else if (password !== null) {
-                    alert("❌ Mật khẩu sai!");
-                }
-            } else {
-                // Thoát chế độ chỉnh sửa
-                isEditMode = false;
-                localStorage.setItem('editMode', 'false');
-                disableEditMode();
-                alert("✅ Đã thoát chế độ chỉnh sửa!");
-            }
-            updateModeButton();
-        }
-        
-        // Bật chế độ chỉnh sửa
-        function enableEditMode() {
-            document.querySelectorAll('[contenteditable]').forEach(el => {
-                el.setAttribute('contenteditable', 'true');
-                el.style.cursor = 'text';
-            });
-            document.querySelectorAll('.add-btn').forEach(btn => {
-                btn.style.display = 'inline-block';
-            });
-            const uploadBtn = document.querySelector('.upload-btn');
-            if (uploadBtn) uploadBtn.style.display = 'block';
-        }
-        
-        // Tắt chế độ chỉnh sửa
-        function disableEditMode() {
-            document.querySelectorAll('[contenteditable]').forEach(el => {
-                el.setAttribute('contenteditable', 'false');
-                el.style.cursor = 'default';
-            });
-            document.querySelectorAll('.add-btn').forEach(btn => {
-                btn.style.display = 'none';
-            });
-            const uploadBtn = document.querySelector('.upload-btn');
-            if (uploadBtn) uploadBtn.style.display = 'none';
-        }
-        
-        // Cập nhật nút chuyển đổi chế độ
-        function updateModeButton() {
-            const btn = document.getElementById('modeToggleBtn');
-            if (!btn) return; // Kiểm tra nếu nút chưa load
-            
-            if (isEditMode) {
-                btn.innerHTML = '<i class="fas fa-lock-open"></i> Chế độ Chỉnh sửa';
-                btn.style.background = 'linear-gradient(135deg, #00d2ff 0%, #3a47d5 100%)';
-            } else {
-                btn.innerHTML = '<i class="fas fa-lock"></i> Chế độ Xem';
-                btn.style.background = 'linear-gradient(135deg, #888 0%, #555 100%)';
-            }
-        }
 
-        // ============== CÁC CHỨC NĂNG CHỈNH SỬA ==============
-        
-        // Upload ảnh
-        document.addEventListener('DOMContentLoaded', function() {
-            const imageInput = document.getElementById('imageInput');
-            if (imageInput) {
-                imageInput.addEventListener('change', function(e) {
-                    if (!isEditMode) return;
-                    const file = e.target.files[0];
-                    if (file) {
-                        const reader = new FileReader();
-                        reader.onload = function(e) {
-                            const profileImage = document.getElementById('profileImage');
-                            if (profileImage) {
-                                profileImage.src = e.target.result;
-                                localStorage.setItem('profileImage', e.target.result);
-                            }
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                });
-            }
+        $("#btnClearAvatarLocal").addEventListener("click", () => {
+          localStorage.removeItem(STORAGE_AVATAR_KEY);
+          $("#avatarDataUrl").value = "";
+          setSaveState("đã thay đổi (chưa lưu)");
+          render();
+          preview.src = p.avatarUrl || makeAvatarPlaceholder(p.fullName);
         });
 
-        // Thêm học vấn
-        function addEducation() {
-            if (!isEditMode) return;
-            const container = document.getElementById('educationContainer');
-            const newItem = document.createElement('div');
-            newItem.className = 'timeline-item';
-            newItem.innerHTML = `
-                <div class="timeline-title" contenteditable="true">Tên Trường</div>
-                <div class="timeline-period" contenteditable="true">MM/YYYY - MM/YYYY</div>
-                <div class="info-label">GPA</div>
-                <div class="timeline-description" contenteditable="true">0.0/4.0</div>
-                <div class="info-label">Luận Văn</div>
-                <div class="timeline-description" contenteditable="true">Mô tả luận văn...</div>
-            `;
-            container.appendChild(newItem);
-        }
+        $("#avatarFile").addEventListener("change", async (e) => {
+          const file = e.target.files?.[0];
+          if (!file) return;
+          const dataUrl = await fileToDataUrl(file);
+          localStorage.setItem(STORAGE_AVATAR_KEY, dataUrl);
+          $("#avatarDataUrl").value = dataUrl;
+          setSaveState("đã thay đổi (chưa lưu)");
+          render();
+          preview.src = dataUrl;
+        });
 
-        // Thêm kinh nghiệm làm việc
-        function addWork() {
-            if (!isEditMode) return;
-            const container = document.getElementById('workContainer');
-            const newItem = document.createElement('div');
-            newItem.className = 'timeline-item';
-            newItem.innerHTML = `
-                <div class="timeline-title" contenteditable="true">Tên Công Ty</div>
-                <div class="timeline-period" contenteditable="true">MM/YYYY - MM/YYYY</div>
-                <div class="info-label">Mô Tả Công Việc</div>
-                <div class="timeline-description" contenteditable="true">Mô tả công việc phụ trách...</div>
-            `;
-            container.appendChild(newItem);
-        }
+        $("#btnCopyAvatarDataUrl").addEventListener("click", async () => {
+          const v = $("#avatarDataUrl").value.trim();
+          if (!v){
+            alert("Chưa có Data URL. Hãy upload ảnh trước.");
+            return;
+          }
+          await navigator.clipboard.writeText(v);
+          alert("Đã copy Data URL.");
+        });
+      }, 0);
 
-        // Thêm kỹ năng
-        function addSkill() {
-            if (!isEditMode) return;
-            const container = document.getElementById('skillsContainer');
-            const newItem = document.createElement('div');
-            newItem.className = 'skill-item';
-            newItem.innerHTML = `
-                <div class="skill-name" contenteditable="true">Tên Kỹ Năng</div>
-                <div class="skill-description" contenteditable="true">Mô tả kỹ năng...</div>
-            `;
-            container.appendChild(newItem);
-        }
+      return box;
+    }
 
-        // Thêm công trình nghiên cứu
-        function addResearch() {
-            if (!isEditMode) return;
-            const container = document.getElementById('researchContainer');
-            const newItem = document.createElement('div');
-            newItem.className = 'research-item';
-            newItem.innerHTML = `
-                <div class="research-description" contenteditable="true">Mô tả công trình nghiên cứu...</div>
-            `;
-            container.appendChild(newItem);
-        }
-    </script>
+    function adminRepeaterPanel({ title, items, emptyItem, fields }){
+      const wrap = document.createElement("div");
+      wrap.className = "space-y-4";
+      wrap.innerHTML = `
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <div class="text-xs text-white/60">Chỉnh sửa danh sách</div>
+            <div class="text-lg font-semibold">${escapeHtml(title)}</div>
+          </div>
+          <button class="btnAdd rounded-xl px-4 py-2 text-sm border border-emerald-300/20 bg-emerald-500/15 hover:bg-emerald-500/25">+ Thêm</button>
+        </div>
+      `;
+
+      const list = document.createElement("div");
+      list.className = "space-y-3";
+
+      function renderList(){
+        list.innerHTML = "";
+        items.forEach((it, idx) => {
+          const card = document.createElement("div");
+          card.className = "rounded-2xl border border-white/10 bg-white/5 p-4";
+
+          const top = document.createElement("div");
+          top.className = "flex items-center justify-between gap-2";
+          top.innerHTML = `
+            <div class="text-sm font-semibold">Mục #${idx+1}</div>
+            <div class="flex items-center gap-2">
+              <button class="btnUp rounded-xl px-3 py-2 text-xs border border-white/10 bg-white/5 hover:bg-white/10">↑</button>
+              <button class="btnDown rounded-xl px-3 py-2 text-xs border border-white/10 bg-white/5 hover:bg-white/10">↓</button>
+              <button class="btnRemove rounded-xl px-3 py-2 text-xs border border-rose-300/20 bg-rose-500/15 hover:bg-rose-500/25">Xoá</button>
+            </div>
+          `;
+
+          const grid = document.createElement("div");
+          grid.className = "mt-3 grid grid-cols-1 md:grid-cols-2 gap-3";
+
+          fields.forEach(f => {
+            const type = f.type || "text";
+            const colSpan = type === "textarea" ? "md:col-span-2" : "";
+            const holder = document.createElement("div");
+            holder.className = colSpan;
+            holder.appendChild(field({
+              label: f.label,
+              value: it[f.key],
+              type,
+              onInput: v => { it[f.key] = v; }
+            }));
+            grid.appendChild(holder);
+          });
+
+          card.appendChild(top);
+          card.appendChild(grid);
+
+          // actions
+          top.querySelector(".btnRemove").addEventListener("click", () => {
+            items.splice(idx, 1);
+            setSaveState("đã thay đổi (chưa lưu)");
+            render();
+            renderList();
+          });
+          top.querySelector(".btnUp").addEventListener("click", () => {
+            if (idx === 0) return;
+            const tmp = items[idx-1];
+            items[idx-1] = items[idx];
+            items[idx] = tmp;
+            setSaveState("đã thay đổi (chưa lưu)");
+            render();
+            renderList();
+          });
+          top.querySelector(".btnDown").addEventListener("click", () => {
+            if (idx >= items.length-1) return;
+            const tmp = items[idx+1];
+            items[idx+1] = items[idx];
+            items[idx] = tmp;
+            setSaveState("đã thay đổi (chưa lưu)");
+            render();
+            renderList();
+          });
+
+          list.appendChild(card);
+        });
+      }
+
+      wrap.querySelector(".btnAdd").addEventListener("click", () => {
+        items.push(structuredClone(emptyItem));
+        setSaveState("đã thay đổi (chưa lưu)");
+        render();
+        renderList();
+      });
+
+      wrap.appendChild(list);
+      renderList();
+      return wrap;
+    }
+
+    function adminResearchPanel(){
+      const wrap = document.createElement("div");
+      wrap.className = "space-y-4";
+
+      // direction
+      const dir = document.createElement("div");
+      dir.className = "rounded-2xl border border-white/10 bg-white/5 p-4";
+      dir.appendChild(field({
+        label: "Hướng nghiên cứu chính (hiển thị ở trang chủ)",
+        value: state.data.researchDirection,
+        onInput: v => state.data.researchDirection = v,
+        type: "textarea"
+      }));
+
+      // topics
+      const topicsPanel = adminRepeaterPanel({
+        title: "Đề tài",
+        items: state.data.researchWorks.topics,
+        emptyItem: { title: "", time: "", role: "", output: "" },
+        fields: [
+          { key: "title", label: "Tên đề tài", type: "textarea" },
+          { key: "time", label: "Thời gian" },
+          { key: "role", label: "Vai trò" },
+          { key: "output", label: "Sản phẩm/đầu ra", type: "textarea" }
+        ]
+      });
+
+      // publications
+      const pubsPanel = adminRepeaterPanel({
+        title: "Công bố khoa học",
+        items: state.data.researchWorks.publications,
+        emptyItem: { title: "", venue: "", year: new Date().getFullYear(), authors: "", link: "" },
+        fields: [
+          { key: "title", label: "Tiêu đề", type: "textarea" },
+          { key: "year", label: "Năm" },
+          { key: "authors", label: "Tác giả", type: "textarea" },
+          { key: "venue", label: "Tạp chí/Hội nghị" },
+          { key: "link", label: "Link (nếu có)" }
+        ]
+      });
+
+      wrap.innerHTML = `
+        <div>
+          <div class="text-xs text-white/60">Công trình nghiên cứu</div>
+          <div class="text-lg font-semibold">Đề tài & Công bố</div>
+        </div>
+      `;
+      wrap.appendChild(dir);
+      wrap.appendChild(topicsPanel);
+      wrap.appendChild(pubsPanel);
+      return wrap;
+    }
+
+    async function fileToDataUrl(file){
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function bindAdminEvents(){
+      $("#btnCloseAdmin").addEventListener("click", closeAdmin);
+      $("#adminOverlay").addEventListener("click", (e) => {
+        if (e.target === $("#adminOverlay")) closeAdmin();
+      });
+
+      $$(".adminNav").forEach(btn => {
+        btn.addEventListener("click", () => setAdminPanel(btn.dataset.panel));
+      });
+
+      $("#btnSaveLocal").addEventListener("click", () => {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state.data, null, 2));
+        setSaveState("đã lưu LocalStorage");
+        render();
+      });
+
+      $("#btnExportJSON").addEventListener("click", () => {
+        const json = JSON.stringify(state.data, null, 2);
+        downloadText("site-data.json", json);
+        setSaveState("đã xuất JSON");
+      });
+
+      $("#btnCopyJSON").addEventListener("click", async () => {
+        const json = JSON.stringify(state.data, null, 2);
+        await navigator.clipboard.writeText(json);
+        setSaveState("đã copy JSON");
+        alert("Đã copy JSON. Bạn hãy dán vào biến SITE_DATA trong code rồi push lên GitHub.");
+      });
+
+      $("#btnReset").addEventListener("click", () => {
+        if (!confirm("Reset toàn bộ về dữ liệu mặc định trong code? (Sẽ xoá dữ liệu local)") ) return;
+        localStorage.removeItem(STORAGE_KEY);
+        localStorage.removeItem(STORAGE_AVATAR_KEY);
+        state.data = structuredClone(SITE_DATA);
+        setSaveState("đã reset");
+        render();
+        setAdminPanel("profile");
+      });
+    }
+
+    /***********************
+     * 7) BASIC EVENTS
+     ***********************/
+    function bindEvents(){
+      $("#btnPrint").addEventListener("click", () => window.print());
+
+      $$(".tabBtn").forEach(btn => {
+        btn.addEventListener("click", () => renderResearchTab(btn.dataset.tab));
+      });
+    }
+
+    /***********************
+     * 8) INIT
+     ***********************/
+    (function init(){
+      // Load local data (owner convenience). Visitors won't have it.
+      const local = localStorage.getItem(STORAGE_KEY);
+      if (local){
+        try{ state.data = JSON.parse(local); }catch{}
+      }
+
+      // Admin is only enabled if ?admin=1
+      enableAdminIfRequested();
+      bindEvents();
+      bindAdminEvents();
+      render();
+
+      // If admin param is present, show a subtle hint (without auto-opening)
+      if (state.isAdminEnabledByUrl){
+        setSaveState("chưa lưu");
+      }
+    })();
+  </script>
 </body>
 </html>
